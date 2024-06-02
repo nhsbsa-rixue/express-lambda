@@ -1,12 +1,19 @@
 import Controller from "../controller.js";
 import { Schema } from "./schema.js";
 
-const Get = (req, res) => {
-  return res.status(200).json({ body: "Success" });
+const Get = async (req, res) => {
+  const response = await req.dynamoDBClient.getItem(req.params.id);
+  return res.status(200).json(response);
+};
+
+const List = async (req, res) => {
+  const response = await req.dynamoDBClient.listItems();
+  console.log(response);
+  return res.status(200).json(response);
 };
 
 const Post = async (req, res) => {
-  const response = await res.sendDBCommand(req.body);
+  const response = await req.dynamoDBClient.createItem(req.body);
   return res.json(response);
 };
 
@@ -15,4 +22,5 @@ export const testDB = new Controller({
   Schema,
   Get,
   Post,
+  List,
 });

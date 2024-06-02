@@ -1,47 +1,89 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  GetCommand,
+  QueryCommand,
+  ScanCommand,
+} from "@aws-sdk/lib-dynamodb";
+import { v4 as uuidv4 } from "uuid";
 import logger from "../logger/index.js";
 import config from "../config/index.js";
 
-const ddbClient = new DynamoDBClient({
+const dbclient = new DynamoDBClient({
   region: config.AWS_REGION,
   endpoint: config.DYNAMODB_ENDPOINT,
 });
-const dynamoDBClient = DynamoDBDocumentClient.from(ddbClient);
+const ddbClient = DynamoDBDocumentClient.from(dbclient);
 
-const sendDBCommand = async (body) => {
-  try {
-    await dynamoDBClient.send(
-      new PutCommand({
+export class dynamoDB {
+  constructor(dynamoDBClient) {
+    this.dynamoDBClient = dynamoDBClient;
+  }
+
+  async getItem(id) {
+    return this.sendCommand(
+      new GetCommand({
         TableName: config.DYNAMODB_TABLE_NAME,
-        Item: {
-          id: Math.random().toString(36).substring(2),
-          content: JSON.stringify(body),
+        Key: {
+          id,
         },
       }),
     );
-  } catch (error) {
-    logger.error(error);
-    return {
-      statusCode: 500,
-      body: "Internal Server Error",
-    };
   }
 
-  return {
-    statusCode: 200,
-    body: "OK",
-  };
-};
+  async createItem(item) {
+    return this.sendCommand(
+      new PutCommand({
+        TableName: config.DYNAMODB_TABLE_NAME,
+        Item: {
+          id: uuidv4(),
+          sortKey: "test",
+          ...item,
+        },
+      }),
+    );
+  }
 
-const dbInstance = (req, res, next) => {
-  req.dynamoDBClient = dynamoDBClient;
-  res.sendDBCommand = sendDBCommand;
-  next();
-};
+  async listItems() {
+    return this.sendCommand(
+      new ScanCommand({
+        TableName: config.DYNAMODB_TABLE_NAME,
+        FilterExpression: "#year > :yr",
+        ExpressionAttributeNames: {
+          "#year": "year",
+        },
+        ExpressionAttributeValues: {
+          ":yr": 1999,
+        },
+      }),
+    );
+  }
+
+  async sendCommand(command) {
+    try {
+      const data = await this.dynamoDBClient.send(command);
+      if (data) {
+        return {
+          statusCode: 200,
+          body: data,
+        };
+      }
+    } catch (error) {
+      logger.error(error);
+      return {
+        statusCode: 500,
+        body: "Internal Server Error",
+      };
+    }
+  }
+}
 
 const setupDynamoDBClient = async (app) => {
-  app.use(dbInstance);
+  app.use((req, res, next) => {
+    req.dynamoDBClient = new dynamoDB(ddbClient);
+    next();
+  });
 };
 
 export default setupDynamoDBClient;

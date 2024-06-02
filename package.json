@@ -8,7 +8,8 @@
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest",
     "test:coverage": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
     "eslint": "eslint .",
-    "local-db": "docker-compose -f local-dev/docker-compose.yml up -d",
+    "dynamodb": "docker-compose -f local-dev/docker-compose.yml up -d",
+    "postdynamodb": "node ./local-dev/create-table.js",
     "dev": "nodemon --watch src/ --ext js local-dev/app.js",
     "start-api": "sam local start-api -p 8000 -t local-dev/template.yaml"
   },
@@ -22,6 +23,7 @@
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
     "jest": "^29.7.0",
+    "uuid": "^9.0.1",
     "winston": "^3.13.0"
   },
   "devDependencies": {

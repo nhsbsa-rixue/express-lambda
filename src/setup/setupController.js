@@ -6,12 +6,16 @@ const router = express.Router();
 
 const setupController = (app) => {
   Object.entries(controllers).forEach(([key, controller]) => {
-    const { Path, Get, Post, Put, Delete, PutSchema, PostSchema } = controller;
+    const { Path, Get, List, Post, Put, Delete, PutSchema, PostSchema } =
+      controller;
 
     const controllerPath = Path || key;
 
     if (Get) {
-      router.get(controllerPath, Get);
+      router.get(controllerPath + "/:id", Get);
+    }
+    if (List) {
+      router.get(controllerPath, List);
     }
 
     if (Post) {

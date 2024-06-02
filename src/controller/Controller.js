@@ -2,6 +2,7 @@
  * @typedef {Object} ControllerOptions
  * @property {string} Path
  * @property {ExpressHandler} Get
+ * @property {ExpressHandler} List
  * @property {ExpressHandler} Post
  * @property {ExpressHandler} Put
  * @property {ExpressHandler} Delete
@@ -17,9 +18,20 @@ export default class Controller {
   /**
    * @param {ControllerOptions} options
    */
-  constructor({ Path, Get, Post, Put, Delete, Schema, PutSchema, PostSchema }) {
+  constructor({
+    Path,
+    Get,
+    List,
+    Post,
+    Put,
+    Delete,
+    Schema,
+    PutSchema,
+    PostSchema,
+  }) {
     this.Path = Path;
     this.Get = Get;
+    this.List = List;
     this.Post = Post;
     this.Put = Put;
     this.Delete = Delete;
