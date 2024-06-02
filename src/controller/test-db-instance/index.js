@@ -2,18 +2,12 @@ import Controller from "../controller.js";
 import { Schema } from "./schema.js";
 
 const Get = (req, res) => {
-  const { plus, getCount } = req.task;
-  plus();
-
-  return res.json({ hello: "world", count: getCount() });
+  return res.status(200).json({ body: "Success" });
 };
 
-const Post = (req, res) => {
-  return res.json({
-    status: "Success",
-    statusCode: 200,
-    message: "Data received",
-  });
+const Post = async (req, res) => {
+  const response = await res.sendDBCommand(req.body);
+  return res.json(response);
 };
 
 export const testDB = new Controller({

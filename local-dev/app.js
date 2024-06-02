@@ -1,7 +1,7 @@
 import express from "express";
-import setup from "./setup/index.js";
-import logger from "./logger/index.js";
-import config from "./config/index.js";
+import setup from "../src/setup/index.js";
+import logger from "../src/logger/index.js";
+import config from "../src/config/index.js";
 
 const { PORT, APP_NAME } = config;
 const app = express();
