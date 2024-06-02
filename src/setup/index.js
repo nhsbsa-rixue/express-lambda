@@ -1,6 +1,7 @@
-import setUpController from "../controller/index.js";
-import setUpDbInstance from "./dbInstance.js";
+import setupDbInstance from "./dbInstance.js";
 import setupParser from "./setupParser.js";
+import setupController from "./setupController.js";
+
 /**
  * 1. Configure to load heavy sync tasks once
  * 2. Register router here so handler can reuse those task
@@ -9,7 +10,8 @@ import setupParser from "./setupParser.js";
  *
  */
 export default (app) => {
-  setUpDbInstance(app);
   setupParser(app);
-  setUpController(app);
+
+  setupDbInstance(app);
+  setupController(app);
 };

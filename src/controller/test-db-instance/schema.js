@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-const DOB = [
+const Schema = [
   body("year")
     .trim()
     .notEmpty()
@@ -13,4 +13,4 @@ const DOB = [
   body("day").trim().notEmpty().withMessage("day is required."),
 ];
 
-export { DOB };
+export { Schema };
