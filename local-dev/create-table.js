@@ -3,7 +3,6 @@ import {
   CreateTableCommand,
   DescribeTableCommand,
 } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import config from "../src/config/index.js";
 import logger from "../src/logger/index.js";
 
@@ -11,15 +10,18 @@ const dbclient = new DynamoDBClient({
   region: config.AWS_REGION,
   endpoint: config.DYNAMODB_ENDPOINT,
 });
-const ddbDocClient = DynamoDBDocumentClient.from(dbclient);
 
 async function createTable() {
   const params = {
     TableName: config.DYNAMODB_TABLE_NAME,
     KeySchema: [
-      { AttributeName: "id", KeyType: "HASH" }, // Partition key
+      { AttributeName: "odsCode", KeyType: "HASH" }, // Partition key
+      { AttributeName: "partMonth", KeyType: "RANGE" }, // Sort key
     ],
-    AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
+    AttributeDefinitions: [
+      { AttributeName: "odsCode", AttributeType: "S" },
+      { AttributeName: "partMonth", AttributeType: "S" },
+    ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 5,
       WriteCapacityUnits: 5,

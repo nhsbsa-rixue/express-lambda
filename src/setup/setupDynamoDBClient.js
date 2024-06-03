@@ -2,11 +2,9 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
   PutCommand,
-  GetCommand,
   QueryCommand,
   ScanCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { v4 as uuidv4 } from "uuid";
 import logger from "../logger/index.js";
 import config from "../config/index.js";
 
@@ -21,12 +19,14 @@ export class dynamoDB {
     this.dynamoDBClient = dynamoDBClient;
   }
 
-  async getItem(id) {
+  async getItem(partMonth) {
     return this.sendCommand(
-      new GetCommand({
+      new QueryCommand({
         TableName: config.DYNAMODB_TABLE_NAME,
-        Key: {
-          id,
+        KeyConditionExpression: "odsCode = :odsCode and partMonth = :partMonth",
+        ExpressionAttributeValues: {
+          ":odsCode": "FAAAA",
+          ":partMonth": partMonth,
         },
       }),
     );
@@ -37,8 +37,6 @@ export class dynamoDB {
       new PutCommand({
         TableName: config.DYNAMODB_TABLE_NAME,
         Item: {
-          id: uuidv4(),
-          sortKey: "test",
           ...item,
         },
       }),
@@ -49,12 +47,9 @@ export class dynamoDB {
     return this.sendCommand(
       new ScanCommand({
         TableName: config.DYNAMODB_TABLE_NAME,
-        FilterExpression: "#year > :yr",
-        ExpressionAttributeNames: {
-          "#year": "year",
-        },
+        FilterExpression: "odsCode = :odsCode",
         ExpressionAttributeValues: {
-          ":yr": 1999,
+          ":odsCode": "FAAAA",
         },
       }),
     );
@@ -66,7 +61,7 @@ export class dynamoDB {
       if (data) {
         return {
           statusCode: 200,
-          body: data,
+          body: data.Items,
         };
       }
     } catch (error) {

@@ -8,7 +8,6 @@ const Get = async (req, res) => {
 
 const List = async (req, res) => {
   const response = await req.dynamoDBClient.listItems();
-  console.log(response);
   return res.status(200).json(response);
 };
 
