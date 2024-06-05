@@ -8,10 +8,10 @@
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest",
     "test:coverage": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
     "eslint": "eslint .",
-    "dynamodb": "docker-compose -f local-dev/docker-compose.yml up -d",
+    "dynamodb": "docker-compose -f local-dev/dynamodb.yml up -d",
     "postdynamodb": "node ./local-dev/create-table.js",
     "dev": "nodemon --watch src/ --ext js local-dev/app.js",
-    "start-api": "sam local start-api -p 8000 -t local-dev/template.yaml"
+    "start-api": "sam local start-api -p 8000 -t local-dev/template.yml"
   },
   "author": "",
   "license": "ISC",
