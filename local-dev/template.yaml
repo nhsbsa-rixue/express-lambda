@@ -4,8 +4,7 @@ Description: Serverless Express Application/API powered by API Gateway and Lambd
 
 Resources:
   ExpressApi:
-    Type: AWS::Serverless::HttpApi
-
+    Type: AWS::Serverless::HttpApi 
   ExpressLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -19,6 +18,23 @@ Resources:
           Type: HttpApi
           Properties:
             ApiId: !Ref ExpressApi
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: notes
+      AttributeDefinitions:
+        - AttributeName: odsCode
+          AttributeType: S
+        - AttributeName: partMonth
+          AttributeType: S  
+      KeySchema:
+        - AttributeName: odsCode
+          KeyType: HASH
+        - AttributeName: partMonth
+          KeyType: RANGE  
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5            
 
 Outputs:
   LambdaFunctionConsoleUrl:

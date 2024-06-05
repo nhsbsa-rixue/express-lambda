@@ -26,3 +26,5 @@ launch.json
 .aws-sam/
 samconfig.toml
 template_docker_image.yaml
+
+dist

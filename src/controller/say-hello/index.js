@@ -2,7 +2,7 @@ import Controller from "../controller.js";
 
 export const hello = new Controller({
   Path: "/",
-  Get: (req, res) => {
+  List: (req, res) => {
     return res.json({
       message: "Hello, World!",
       status: 200,
