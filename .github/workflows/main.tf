@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_iam_role" "lambda_execution_role" {
-  name               = "lambda-execution-role"
+  name               = "tf-lambda-execution-role"
   assume_role_policy = jsonencode({
     Version   = "2012-10-17",
     Statement = [
@@ -21,7 +21,7 @@ resource "aws_iam_role" "lambda_execution_role" {
 resource "aws_lambda_function" "lambda_function" {
   filename = "./lambda.zip"
   function_name = "tf-managed-lambda-function"
-  handler = "index.handler"
+  handler = "./src/index.handler"
   runtime = "nodejs20.x"
   role          = aws_iam_role.lambda_execution_role.arn
   # Other configurations like source code, permissions, etc.
