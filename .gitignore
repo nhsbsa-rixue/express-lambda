@@ -30,3 +30,5 @@ template_docker_image.yaml
 dist
 
 *.zip
+
+./local-dev/docker/
