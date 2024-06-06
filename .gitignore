@@ -31,4 +31,4 @@ dist
 
 *.zip
 
-./local-dev/docker/
+local-dev/docker/
