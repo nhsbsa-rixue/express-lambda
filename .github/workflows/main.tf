@@ -49,12 +49,19 @@ resource "aws_dynamodb_table" "table" {
   }
 }
 
+resource "aws_lambda_layer_version" "layer" {
+  filename            = "./layer.zip"
+  layer_name          = "express-lambda-layer"
+  compatible_runtimes = ["nodejs20.x"]
+}
+
 resource "aws_lambda_function" "lambda_function" {
   filename = "./lambda.zip"
   function_name = "tf-managed-lambda-function"
   handler = "./src/index.handler"
   runtime = "nodejs20.x"
   role    = aws_iam_role.lambda_execution_role.arn
+  layers = [aws_lambda_layer_version.layer.arn]
   publish = true
 
   # Other configurations like source code, permissions, etc.
