@@ -1,6 +1,6 @@
 {
   "name": "express-lambda",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "src/index.mjs",
   "type": "module",
@@ -10,10 +10,7 @@
     "eslint": "eslint .",
     "dynamodb": "docker-compose -f local-dev/dynamodb.yml up -d",
     "postdynamodb": "node ./local-dev/create-table.js",
-    "dev": "nodemon --watch src/ --ext js local-dev/app.js",
-    "deploy": "start:*",
-    "deploy:win":  "echo Running on Windows! && npm run ./deploy/package.bat",
-    "deploy:mac": " echo Running on MacOS/Linux! && npm run ./deploy/package.sh"
+    "dev": "nodemon --watch src/ --ext js local-dev/app.js"
   },
   "author": "",
   "license": "ISC",
