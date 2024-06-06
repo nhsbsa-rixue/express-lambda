@@ -33,7 +33,7 @@ resource "aws_lambda_function_url" "lambda_function_url" {
 }
 
 output "lambda_function_url" {
-  value = "${aws_api_gateway_deployment.deployment.invoke_url}/${aws_lambda_function.lambda_function.function_name}"
+  value = aws_lambda_function_url.lambda_function_url
 }
 
 output "function_arn" {
