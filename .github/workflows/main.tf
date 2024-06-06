@@ -35,8 +35,8 @@ resource "aws_dynamodb_table" "table" {
   name           = "notes"
   hash_key       = "odsCode"
   range_key      = "partMonth"
-  read_capacity  = 5
-  write_capacity = 5
+  read_capacity  = 1
+  write_capacity = 1
 
   attribute {
     name = "odsCode"
@@ -54,7 +54,9 @@ resource "aws_lambda_function" "lambda_function" {
   function_name = "tf-managed-lambda-function"
   handler = "./src/index.handler"
   runtime = "nodejs20.x"
-  role          = aws_iam_role.lambda_execution_role.arn
+  role    = aws_iam_role.lambda_execution_role.arn
+  publish = true
+
   # Other configurations like source code, permissions, etc.
 }
 
