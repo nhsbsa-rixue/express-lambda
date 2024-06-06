@@ -26,12 +26,35 @@ resource "aws_iam_role" "lambda_execution_role" {
   })
 }
 
+resource "aws_dynamodb_table" "table" {
+  name           = "notes"
+  hash_key       = "odsCode"
+  range_key      = "partMonth"
+  read_capacity  = 5
+  write_capacity = 5
+
+  attribute {
+    name = "odsCode"
+    type = "S"
+  }
+
+  attribute {
+    name = "partMonth"
+    type = "S"
+  }
+}
+
 resource "aws_lambda_function" "lambda_function" {
   filename = "./lambda.zip"
   function_name = "tf-managed-lambda-function"
   handler = "./src/index.handler"
   runtime = "nodejs20.x"
   role          = aws_iam_role.lambda_execution_role.arn
+  environment {
+    variables = {
+      DYNAMODB_ENDPOINT = aws_dynamodb_table.table.arn
+    }
+  }
   # Other configurations like source code, permissions, etc.
 }
 
