@@ -17,8 +17,10 @@ jobs:
 
       - name: package lambda
         run: |
-          npm install
-          zip -r ./.github/workflows/lambda.zip src/ node_modules/ package.json 
+          mkdir nodejs
+          npm install --omit=dev --prefix ./nodejs
+          zip -r ./.github/workflows/layer.zip
+          zip -r ./.github/workflows/lambda.zip src/ package.json 
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1

@@ -16,8 +16,8 @@ const Post = async (req, res) => {
   return res.json(response);
 };
 
-export const testDB = new controller({
-  Path: "/test",
+export const notes = new controller({
+  Path: "/notes",
   Schema,
   Get,
   Post,
