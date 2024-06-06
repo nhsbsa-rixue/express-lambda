@@ -12,7 +12,11 @@ resource "aws_iam_role" "lambda_execution_role" {
         Principal = {
           Service = "lambda.amazonaws.com"  # Allow Lambda service to assume this role
         },
-        Action    = "sts:AssumeRole"
+        Action    = [
+          "lambda:UpdateFunctionCode",
+          "lambda:UpdateFunctionConfiguration",
+          "sts:AssumeRole",
+          ]
       }
     ]
   })
