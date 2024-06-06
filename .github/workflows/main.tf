@@ -1,9 +1,17 @@
+terraform {
+  backend "s3" {
+    bucket         = "nhsbsa-sandpit-terraform"
+    key            = "express-lambda-tf-state"
+    region         = "eu-west-2"
+  }
+}
+
 provider "aws" {
   region = "eu-west-2"
 }
 
 resource "aws_iam_role" "lambda_execution_role" {
-  name               = "tf-lambda-execution-role"
+  name               = "express-lambda-execution-role"
   assume_role_policy = jsonencode({
     Version   = "2012-10-17",
     Statement = [
