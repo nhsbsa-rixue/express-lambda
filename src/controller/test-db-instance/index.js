@@ -1,4 +1,4 @@
-import Controller from "../controller.js";
+import Controller from "../Controller.js";
 import { Schema } from "./schema.js";
 
 const Get = async (req, res) => {
