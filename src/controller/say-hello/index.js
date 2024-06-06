@@ -1,6 +1,6 @@
-import Controller from "../Controller.js";
+import controller from "../controller.js";
 
-export const hello = new Controller({
+export const hello = new controller({
   Path: "/",
   List: (req, res) => {
     return res.json({

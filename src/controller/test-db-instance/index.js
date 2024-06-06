@@ -1,4 +1,4 @@
-import Controller from "../Controller.js";
+import controller from "../controller.js";
 import { Schema } from "./schema.js";
 
 const Get = async (req, res) => {
@@ -16,7 +16,7 @@ const Post = async (req, res) => {
   return res.json(response);
 };
 
-export const testDB = new Controller({
+export const testDB = new controller({
   Path: "/test",
   Schema,
   Get,
