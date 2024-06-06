@@ -57,6 +57,7 @@ resource "aws_lambda_layer_version" "layer" {
 
 resource "aws_lambda_function" "lambda_function" {
   filename = "./lambda.zip"
+  source_code_hash = filebase64sha256(data.archive_file.lambda_zip.output_path)
   function_name = "tf-managed-lambda-function"
   handler = "./src/index.handler"
   runtime = "nodejs20.x"
