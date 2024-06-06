@@ -55,6 +55,11 @@ resource "aws_lambda_layer_version" "layer" {
   compatible_runtimes = ["nodejs20.x"]
 }
 
+data "archive_file" "lambda_zip" {
+  type        = "zip"
+  source_dir  = "./src"
+  output_path = "./lambda.zip"
+}
 resource "aws_lambda_function" "lambda_function" {
   filename = "./lambda.zip"
   source_code_hash = filebase64sha256(data.archive_file.lambda_zip.output_path)
