@@ -8,7 +8,6 @@ import logger from "../src/logger/index.js";
 
 const dbclient = new DynamoDBClient({
   region: config.AWS_REGION,
-  endpoint: config.DYNAMODB_ENDPOINT,
 });
 
 async function createTable() {

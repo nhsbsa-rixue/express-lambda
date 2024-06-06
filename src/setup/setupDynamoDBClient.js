@@ -10,7 +10,6 @@ import config from "../config/index.js";
 
 const dbclient = new DynamoDBClient({
   region: config.AWS_REGION,
-  endpoint: config.DYNAMODB_ENDPOINT,
 });
 const ddbClient = DynamoDBDocumentClient.from(dbclient);
 

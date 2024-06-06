@@ -55,11 +55,6 @@ resource "aws_lambda_function" "lambda_function" {
   handler = "./src/index.handler"
   runtime = "nodejs20.x"
   role          = aws_iam_role.lambda_execution_role.arn
-  environment {
-    variables = {
-      DYNAMODB_ENDPOINT = aws_dynamodb_table.table.arn
-    }
-  }
   # Other configurations like source code, permissions, etc.
 }
 
