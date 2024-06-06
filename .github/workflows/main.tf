@@ -32,10 +32,10 @@ resource "aws_lambda_function_url" "lambda_function_url" {
   authorization_type     = "NONE"
 }
 
-# output "lambda_function_url" {
-#   value = "${aws_api_gateway_deployment.deployment.invoke_url}/${aws_lambda_function.lambda_function.function_name}"
-# }
+output "lambda_function_url" {
+  value = "${aws_api_gateway_deployment.deployment.invoke_url}/${aws_lambda_function.lambda_function.function_name}"
+}
 
-# output "function_arn" {
-#   value = aws_lambda_function.lambda_function.arn
-# }
+output "function_arn" {
+  value = aws_lambda_function.lambda_function.arn
+}
