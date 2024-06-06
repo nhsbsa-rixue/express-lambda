@@ -18,8 +18,10 @@ jobs:
       - name: package lambda
         run: |
           mkdir nodejs
+          cp package.json ./nodejs
+          cp package-lock.json ./nodejs
           npm install --omit=dev --prefix ./nodejs
-          zip -r ./.github/workflows/layer.zip
+          zip -r ./.github/workflows/layer.zip nodejs/
           zip -r ./.github/workflows/lambda.zip src/ package.json 
 
       - name: Setup Terraform
